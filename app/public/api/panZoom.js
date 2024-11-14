@@ -26,7 +26,7 @@ export function zoom(app, canvas, scale) {
 
 export function ewResize(ele, scale, onResize) {
     ele.addEventListener("mousedown", function (e) {
-        if (e && (e.which == 1 || e.button == 0)) {
+        if (e && (e.which === 1 || e.button === 0)) {
             document.addEventListener("contextmenu", (e) => { e.preventDefault(); return false; }, { "once": true });
             let lastX = e.clientX;
             let factor = 1;
@@ -48,17 +48,15 @@ export function ewResize(ele, scale, onResize) {
                 clearInterval(resizeInterval);
                 ele.style.cursor = "default";
                 ele.removeEventListener("mousemove", onMouseMove);
-            }), { "once": true };
+            }, { "once": true });
         }
     });
 }
 
 
-
-
 export function pan(app, canvas) {
     app.view.addEventListener("mousedown", function (e) {
-        if (e && (e.which == 1 || e.button == 0) && e.altKey) {
+        if (e && (e.which === 3 || e.button === 2)) {
             app.view.style.cursor = "grabbing";
             document.addEventListener("contextmenu", (e) => { e.preventDefault(); return false; }, { "once": true });
             let lastX = e.offsetX;
@@ -79,7 +77,7 @@ export function pan(app, canvas) {
             window.addEventListener("mouseup", function () {
                 app.view.style.cursor = "default";
                 app.view.removeEventListener("mousemove", onMouseMove);
-            }), { "once": true };
+            }, { "once": true });
         }
     });
 }

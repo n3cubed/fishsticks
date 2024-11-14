@@ -2,7 +2,7 @@
 
 Physics if reality was Javascript in a web browser.
 
-Made with [Rapier Physics Engine](https://rapier.rs/)🦀 + [PixiJS](https://pixijs.com/)🖌️ + [Next.js](https://nextjs.org/)⚛️
+Made with [Rapier Physics Engine](https://rapier.rs/)🦀 + [PixiJS](https://pixijs.com/)🖌️ + [React](https://react.dev/)⚛️
 
 ## ✦ Development
 
