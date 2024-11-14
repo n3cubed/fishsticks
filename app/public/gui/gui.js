@@ -1,9 +1,9 @@
 // all the essentials
 
-const gui = document.getElementById("gui");
 import ObjectsInterface from "../api/objectsInterface.js"
 import Tools from "../api/tools.js"
 import Logger from "./guiLogger.js"
+const gui = document.getElementById("gui");
 
 let Objects = await import("../api/objects.js");
 
