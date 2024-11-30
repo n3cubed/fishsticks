@@ -1,7 +1,7 @@
 
 export function zoom(app, canvas, scale) {
     let cursor;
-    app.view.onwheel = function (e) {
+    app.canvas.onwheel = function (e) {
         e.preventDefault();
         clearTimeout(cursor);
         let factor = 1;
@@ -55,7 +55,7 @@ export function ewResize(ele, scale, onResize) {
 
 
 export function pan(app, canvas) {
-    app.view.addEventListener("mousedown", function (e) {
+    app.canvas.addEventListener("mousedown", function (e) {
         if (e && (e.which === 3 || e.button === 2)) {
             app.view.style.cursor = "grabbing";
             document.addEventListener("contextmenu", (e) => { e.preventDefault(); return false; }, { "once": true });
@@ -72,11 +72,11 @@ export function pan(app, canvas) {
                 }
             }
 
-            app.view.addEventListener("mousemove", onMouseMove);
+            app.canvas.addEventListener("mousemove", onMouseMove);
 
             window.addEventListener("mouseup", function () {
-                app.view.style.cursor = "default";
-                app.view.removeEventListener("mousemove", onMouseMove);
+                app.canvas.style.cursor = "default";
+                app.canvas.removeEventListener("mousemove", onMouseMove);
             }, { "once": true });
         }
     });

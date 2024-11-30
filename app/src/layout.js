@@ -1,8 +1,10 @@
-import styles from "./styles/globals.css";
+// unused
+
+import "./styles/globals.css";
 
 export const metadata = {
   title: 'Fishsticks',
-  description: "it's just like real life!",
+  description: "It's just like real life!",
 }
 
 export default function RootLayout({ children }) {

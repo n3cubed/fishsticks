@@ -1,0 +1,68 @@
+.start, .stop {
+  color: black;
+  cursor: pointer;
+}
+
+.start {
+  background-color: limegreen;
+}
+
+.stop {
+  background-color: orangered;
+}
+
+.play, .pause {
+  color: white;
+  background-color: darkslateblue;
+  cursor: pointer;
+}
+
+.step {
+  color: white;
+  background-color: darkslategray;
+}
+
+.speed {
+  color: white;
+  background-color: darkslategray;
+}
+
+.speed-up, .speed-down {
+  padding:2px 5px;
+  cursor: pointer;
+}
+
+.speed-input {
+  background-color: darkslategray;
+  color: white;
+  width: 1.5em;
+  border-width: 0 0 1px 0;
+  border-color: white;
+  font-size: 1em;
+  text-align: center;
+}
+
+/* always show arrow */
+.speed-input::-webkit-inner-spin-button,
+.speed-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.controls {
+  display: flex;
+  flex: row;
+}
+
+.button {
+  min-width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3em;
+  height:1.5em;
+  user-select: none;
+  border-radius: 500px;
+  font-size: 1.7em;
+  margin-left:10px;
+  padding:2px 5px;
+}

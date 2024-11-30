@@ -5,6 +5,8 @@ const playPauseButton = document.getElementById('play-pause-button');
 const stepButton = document.getElementById('step-button');
 const guiEdit = document.getElementById('edit');
 
+
+
 // startStop
 
 let hasStarted = false;

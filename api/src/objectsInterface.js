@@ -1,6 +1,6 @@
 // simplifies various operations in objects.js
 
-class ObjectsInterface {
+export default class ObjectsInterface {
     constructor(objects, props) {
         this.objects = objects;
         this.canvas = objects.canvas;
@@ -35,5 +35,3 @@ class ObjectsInterface {
         this.objects.removeFromPos(pos);
     }
 }
-
-export default ObjectsInterface;

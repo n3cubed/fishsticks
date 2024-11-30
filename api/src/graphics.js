@@ -1,4 +1,5 @@
 import { zoom, pan } from './panZoom.js';
+import * as PIXI from 'pixi.js';
 
 const s = 100;
 
@@ -11,35 +12,39 @@ function m2pos(pos) {
 class Canvas {
     constructor(props) {
         const { backgroundColor = 0x1099bb } = props;
-        const app = new PIXI.Application({
+        this.backgroundColor = backgroundColor;
+        const app = new PIXI.Application();
+        this.app = app;
+    }
+
+    async init() {
+        await this.app.init({
             background: '#1099bb',
             resizeTo: window,
             antialias: true,
-        });
-        app.view.id = 'pixi-canvas';
-        app.renderer.background.color = backgroundColor;
+        })
+        this.app.canvas.id = 'pixi-canvas';
+        this.app.renderer.background.color = this.backgroundColor;
 
         const canvas = new PIXI.Container();
         canvas.sortableChildren = true;
         canvas.width = 100; //
         canvas.height = 100;
         canvas.pivot.set(canvas.width / 2, canvas.height / 2);
-        canvas.position.set(app.screen.width / 2, app.screen.height / 1.1);
+        canvas.position.set(this.app.screen.width / 2, this.app.screen.height / 1.1);
 
         const center = new PIXI.Graphics();
-        center.beginFill(0x000000);
-        center.drawCircle(0, 0, 5);
-        center.endFill();
+        center.circle(0,0,5).fill(0x000000);
         canvas.addChild(center);
 
-        zoom(app, canvas, 0.1);
-        pan(app, canvas);
+        zoom(this.app, canvas, 0.1);
+        pan(this.app, canvas);
 
-        app.stage.addChild(canvas);
+        this.app.stage.addChild(canvas);
 
-        this.app = app;
         this.pixiCanvas = canvas;
     }
+
 
     addTicker(tickerFunc) {
         this.app.ticker.add(tickerFunc);

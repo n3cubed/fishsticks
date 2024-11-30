@@ -12,22 +12,22 @@ let cmdHistoryPos = 0; // pos from the end
 document.addEventListener("keydown", function(event) {
     let key = event.key
     if (ALLOWED_KEYS.includes(key)) {
-        if (window.getComputedStyle(inputLine, null).display == "none") {
+        if (window.getComputedStyle(inputLine, null).display === "none") {
             inputLine.style.display = "block";
         }
         inputLine.focus();
 
-        if (key == "ArrowUp") {
+        if (key === "ArrowUp") {
             cmdHistoryPos = (cmdHistoryPos < cmdHistory.length) ? cmdHistoryPos += 1 : cmdHistory.length;
             console.log(cmdHistoryPos);
             inputLine.value = cmdHistory[cmdHistory.length - cmdHistoryPos];
-        } else if (key == "ArrowDown") {
+        } else if (key === "ArrowDown") {
             cmdHistoryPos = (cmdHistoryPos > 0) ? cmdHistoryPos - 1 : 0;
-            inputLine.value = (cmdHistoryPos == 0) ? '' : cmdHistory[cmdHistory.length - cmdHistoryPos];
+            inputLine.value = (cmdHistoryPos === 0) ? '' : cmdHistory[cmdHistory.length - cmdHistoryPos];
         }
 
-    } else if (key == "Enter") {
-        if (window.getComputedStyle(inputLine, null).display == "block") {
+    } else if (key === "Enter") {
+        if (window.getComputedStyle(inputLine, null).display === "block") {
             inputLine.style.display = "none";
             cmdHistoryPos = 0;
             let cmd = new Command(inputLine.value);
@@ -119,7 +119,7 @@ class Command {
     }
 
     posParse(pos) {
-        if (pos == 'here') return OI.global2m(T.mousePos);
+        if (pos === 'here') return OI.global2m(T.mousePos);
         else {
             try {
                 const [x, y] = pos.split(',').map(Number);
