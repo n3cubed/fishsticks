@@ -42,7 +42,7 @@
   text-align: center;
 }
 
-/* always show arrow */
+/* always hide spin buttons */
 .speed-input::-webkit-inner-spin-button,
 .speed-input::-webkit-outer-spin-button {
   -webkit-appearance: none;

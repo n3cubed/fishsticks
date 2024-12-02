@@ -1,18 +1,13 @@
 # Fishsticks
 
-Physics if reality was Javascript in a web browser.
-
-Made with [Rapier Physics Engine](https://rapier.rs/)🦀 + [PixiJS](https://pixijs.com/)🖌️ + [React](https://react.dev/)⚛️
+## About
+All of physics in one place.
 
 ## ✦ Development
 
-[App](./app) and [Server](./server).
+Read the [design document](https://docs.google.com/document/d/1Hc-v1_7uhf-lCm7f2a6eVlT6v205C1_I8JcLplHQfck/edit?usp=sharing) for more information.
 
-To do:
-   - [ ] grapher (D3.js or Chart.js)
-   - [ ] drawer
-   - [ ] GUI
-   - [ ] polygons
+Made with [Rapier Physics Engine](https://rapier.rs/)🦀 + [PixiJS](https://pixijs.com/)🖌️ + [React](https://react.dev/)⚛️
 
 ## Preview
 

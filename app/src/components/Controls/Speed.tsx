@@ -8,7 +8,7 @@ type props = {
   setSpeed: (speed: number) => void;
 };
 
-export default function CommandLine({ isStopped, speed, speedStep, setSpeed }: props) {
+export default function Speed({ isStopped, speed, speedStep, setSpeed }: props) {
   let inputRef = useRef(null);
 
   const speedDown = () => {

@@ -13,9 +13,7 @@ export default function Gui() {
         init()
             .then((objects) => {
                 if (isMounted && gui.current) {
-                    console.log(typeof objects.view); // Should log "object"
-                    console.log(objects.view); // The HTMLElement
-                    gui.current.appendChild(objects.view); // Append it to the ref container
+                    gui.current.appendChild(objects.view);
                 }
             })
             .catch((err) => {
