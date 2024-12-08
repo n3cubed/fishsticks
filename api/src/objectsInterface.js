@@ -19,7 +19,7 @@ export default class ObjectsInterface {
 
     createBallFromGlobalPos(props) {
         const { pos = { x: 0, y: 0 } } = props;
-        props.v = { x: 5, y: 7 }
+        // props.v = { x: 5, y: 7 }
         props.pos = this.global2m(pos);
         return this.objects.createBall(props);
     }

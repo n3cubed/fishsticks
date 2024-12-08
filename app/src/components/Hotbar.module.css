@@ -1,0 +1,43 @@
+.hotbar {
+  background-color: rgba(0, 0, 0, 0.305);
+  width: max-content;
+  height: 80px;
+  border-radius: 6px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  gap: 30px;
+}
+
+.circle {
+  background-color: rgb(255, 255, 255);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+}
+
+.square {
+  background-color: rgb(255, 255, 255);
+  width: 50px;
+  height: 50px;
+  border-radius: 7px;
+  position: relative;
+  cursor: pointer;
+}
+
+.polygon {
+  background-color: rgb(255, 255, 255);
+  width: 50px;
+  height: 50px;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  position: relative;
+  cursor: pointer;
+}
+
