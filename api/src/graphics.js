@@ -31,20 +31,197 @@ class Canvas {
         canvas.width = 100; //
         canvas.height = 100;
         canvas.pivot.set(canvas.width / 2, canvas.height / 2);
-        canvas.position.set(this.app.screen.width / 2, this.app.screen.height / 1.1);
+        canvas.position.set(this.app.screen.width / 2, this.app.screen.height / 1.3);
+
+        const lineWidth = 1;
+
+        const app = this.app;
+
+        const grid = new PIXI.Graphics();
+
+        updateGrid();
+        // canvas.addChild(grid);
+        this.app.stage.addChild(grid);
+        function mod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        // NOTE: very messy but it works, will clean up later
+        function updateGrid() {
+            grid.clear();
+
+
+            // console.log(mod(numHalves,1))
+            let numHalves = -Math.log2(canvas.scale.x);
+            let spacingMultiplier = canvas.scale.x/Math.pow(2,Math.floor(-numHalves));
+            let lineSpacing = 1 * s / 5 * spacingMultiplier;
+            // let lineSpacing = 100/5 * canvas.scale.x * (mod(numHalves,1));
+            // const spacingMultiplier = 1;
+
+            let numHorizontalLines = app.screen.height / lineSpacing + 1;
+            let initialY = mod(canvas.y,lineSpacing);
+            let initialLineNumY = Math.floor(canvas.y / lineSpacing);
+
+
+            let numVerticalLines = app.screen.width / lineSpacing + 1;
+            // console.log(numVerticalLines)
+            let initialX = mod(canvas.x,lineSpacing);
+            let initialLineNumX = Math.floor(canvas.x / lineSpacing);
+
+            let numbersX = grid.getChildrenByLabel('x');
+            let numbersY = grid.getChildrenByLabel('y');
+
+            let lenX = Math.floor(numVerticalLines/5) - (canvas.x < app.screen.width);
+            let lenY = Math.floor(numHorizontalLines/5) - (canvas.y < app.screen.height);
+            // console.log("e",(canvas.x < app.screen.width))
+
+
+            grid.removeChild(...numbersX.splice(lenX))
+            grid.removeChild(...numbersY.splice(lenY))
+            numbersX = numbersX.splice(0, lenX);
+            numbersY = numbersY.splice(0, lenY);
+
+            for (let i = 0; i < Math.max(numVerticalLines, numHorizontalLines) ; i++) {
+                let lineNumX = initialLineNumX - i;
+                let lineOffsetX = mod(lineNumX,5);
+                let x = initialX + i * lineSpacing;
+
+                let lineNumY = initialLineNumY - i;
+                let lineOffsetY = mod(lineNumY,5);
+                let y = initialY + i * lineSpacing;
+
+                if (lineOffsetX != 0 && lineNumX != 0 && i < numVerticalLines) {
+                    grid.moveTo(x, -app.screen.height/2-lineSpacing);
+                    grid.lineTo(x, app.screen.height + lineSpacing);
+                    grid.stroke({ width: lineWidth, color: 'lightgrey' });
+                }
+                if (lineOffsetY != 0 && lineNumY != 0 && i < numHorizontalLines) {
+                    grid.moveTo(-(app.screen.width)/2-lineSpacing, y);
+                    grid.lineTo(app.screen.width + lineSpacing, y);
+                    grid.stroke({ width: lineWidth, color: 'lightgrey' });
+                }
+            }
+
+            for (let i = 0; i < Math.max(numVerticalLines, numHorizontalLines); i ++) {
+                let lineNumX = initialLineNumX - i;
+                let lineOffsetX = mod(lineNumX,5);
+                let x = initialX + i * lineSpacing;
+
+                let lineNumY = initialLineNumY - i;
+                let lineOffsetY = mod(lineNumY,5);
+                let y = initialY + i * lineSpacing;
+
+                if (lineNumX == 0) {
+                    let number = grid.getChildByLabel('0');
+                    if (number) {
+                        if (canvas.y < app.screen.height) {
+                            number.y = canvas.y;
+                            number.x = canvas.x-number.width-5;
+                        }
+                    } else {
+                        const number = new PIXI.Text({ text: '0', style: { fontSize: 14} });
+                        if (canvas.y < app.screen.height) {
+                            number.y = canvas.y;
+                            number.x = canvas.x-number.width-5;
+                        }
+                        number.label = '0';
+                        grid.addChild(number);
+                    }
+                }
+                if (lineOffsetX == 0 && lineNumX != 0 && i < numVerticalLines) {
+                    // numbers.forEach((number, j) => {
+                    //     console.log(i)
+                    //     console.log(Math.floor(i/5),j)
+                    //     number.visible = Math.floor(i/5) == j;
+                    // })
+                    let number = numbersX[Math.floor((i)/5) - (canvas.x < app.screen.width && lineNumX < 0)];
+                    // initialLineNumX = left most line num
+                    // numbersX
+                    // i = current line starting from left and 0
+                    // lineOffsetX = lineNumX % 5 = (0, 4)
+                    // lineNumX = current line num = initialLineNumX - i ()
+                    // numVerticalLines (1, n)
+
+                    let num = -(lineNumX/5 * Math.pow(2,Math.ceil(numHalves)));
+
+                    if (number) {
+                        number.text = num;
+                        if (canvas.y < app.screen.height) {
+                            number.y = canvas.y;
+                            number.x = x - number.width/2;
+                        }
+                    } else {
+                        const number = new PIXI.Text({ text: num, style: { fontSize: 14} });
+                        if (canvas.y < app.screen.height) {
+                            number.y = canvas.y;
+                            number.x = x - number.width/2;
+                        }
+                        number.label = 'x';
+                        grid.addChild(number);
+                    }
+                    // console.log(initialX); // -4.5
+                    // console.log(i); // 4
+                    // console.log(initialLineNumX);
+                    // console.log(lineNumX); // -5
+                    // console.log(x);
+                    grid.moveTo(x, -app.screen.height/2-lineSpacing);
+                    grid.lineTo(x, app.screen.height + lineSpacing);
+                    grid.stroke({ width: lineWidth, color: 'grey' });
+                }
+                if (lineOffsetY == 0 && lineNumY != 0 && i < numHorizontalLines) {
+                    let index = Math.floor(i/5) - (canvas.y < app.screen.height && lineNumY < 0);
+                    let numb = numbersY[index];
+
+                    let num = lineNumY/5 * Math.pow(2,Math.ceil(numHalves));
+                    if (numb) {
+                        numb.text = num;
+                        if (canvas.x < app.screen.height) {
+                            numb.x = canvas.x - numb.width - 5;
+                            numb.y = y - numb.height/2;
+                        }
+                    } else {
+                        const number = new PIXI.Text({ text: num, style: { fontSize: 14} });
+                        if (canvas.x < app.screen.height) {
+                            number.x = canvas.x - number.width - 5;
+                            number.y = y - number.height/2;
+                        }
+                        number.label = 'y'
+                        grid.addChild(number);
+                    }
+
+                    grid.moveTo(-(app.screen.width)/2-lineSpacing, y);
+                    grid.lineTo(app.screen.width + lineSpacing, y);
+                    grid.stroke({ width: lineWidth, color: 'grey' });
+                }
+            }
+
+            if (canvas.x < app.screen.width) {
+                console.log(true)
+                let x = canvas.x;
+                grid.moveTo(x, -app.screen.height/2);
+                grid.lineTo(x,  app.screen.height);
+                grid.stroke({ width: lineWidth, color: 'black' });
+            }
+
+            if (canvas.y < app.screen.height) {
+                let y = canvas.y;
+                grid.moveTo(-(app.screen.width)/2, y);
+                grid.lineTo(app.screen.width, y);
+                grid.stroke({ width: lineWidth, color: 'black' });
+            }
+        }
 
         const center = new PIXI.Graphics();
         center.circle(0,0,5).fill(0x000000);
         canvas.addChild(center);
 
-        zoom(this.app, canvas, 0.1);
-        pan(this.app, canvas);
+        zoom(this.app, canvas, 0.05, updateGrid);
+        pan(this.app, canvas, updateGrid);
 
         this.app.stage.addChild(canvas);
 
         this.pixiCanvas = canvas;
     }
-
 
     addTicker(tickerFunc) {
         this.app.ticker.add(tickerFunc);
@@ -53,7 +230,6 @@ class Canvas {
     removeTicker(tickerFunc) {
         this.app.ticker.remove(tickerFunc);
     }
-
 
     start() { // unused
         this.app.ticker.start()

@@ -1,24 +1,25 @@
-import styles from "./Hotbar.module.css"; 
+import styles from "./Hotbar.module.css";
 import { useRef, useEffect } from "react";
 import { objects, ObjectsInterface } from "api";
 
 const simplePropsB = {
   pos: { x: 0.0, y: 0.0 },
   r: 0.25,
-  color: 0xffffff,
+  color: 0xffff00,
   mass: 1.0,
   restitution: 1.0,
   rigidBody: "dynamic",
   canSleep: false,
   ccd: true,
   v: { x: 1.0, y: 0.0 },
+
 };
 
 const simplePropsR = {
   pos: { x: 0.0, y: 0.0 },
   w: 0.5,
   h: 0.5,
-  color: 0xffffff,
+  color: 0xffff00,
   mass: 1.0,
   restitution: 1.0,
   rigidBody: "dynamic",
@@ -36,7 +37,7 @@ function drag(element, callback) {
       let lastY = e.clientY;
       let eleX = e.offsetX;
       let eleY = e.offsetY;
-      
+
       const onMouseMove = (e) => {
         if (lastX && lastY) {
             element.style.left = `${e.clientX - lastX}px`;
@@ -47,7 +48,7 @@ function drag(element, callback) {
       window.addEventListener("mousemove", onMouseMove);
 
       window.addEventListener("mouseup", function (e) {
-        let pos = { x: 0.0, y: 0.0 };  
+        let pos = { x: 0.0, y: 0.0 };
         pos.x = e.clientX - eleX + element.offsetWidth/2;
         pos.y = e.clientY - eleY + element.offsetHeight/2;
         console.log(element.clientLeft + element.offsetWidth/2);
@@ -65,9 +66,9 @@ export default function Hotbar() {
   const circle = useRef(null);
   const square = useRef(null);
   const polygon = useRef(null);
-  
+
   useEffect(() => {
-    
+
     drag(circle.current, (pos) => { simplePropsB.pos = pos; new ObjectsInterface(objects, {}).createBallFromGlobalPos(simplePropsB).put(); });
     drag(square.current , (pos) => { simplePropsR.pos = pos; new ObjectsInterface(objects, {}).createBallFromGlobalPos(simplePropsR).put(); });
     drag(polygon.current , (pos) => { simplePropsB.pos = pos; new ObjectsInterface(objects, {}).createBallFromGlobalPos(simplePropsB).put(); });
@@ -79,9 +80,7 @@ export default function Hotbar() {
         <div ref={square} className={`${styles.square}`}></div>
         <div ref={polygon} className={`${styles.polygon}`}></div>
       </div>
-      
+
     </>
   )
 }
-
-

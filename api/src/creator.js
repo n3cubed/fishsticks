@@ -15,12 +15,12 @@ const simulationProps = {
 }
 
 const canvasProps = {
-    backgroundColor: "cadetblue",
+    // backgroundColor: "cadetblue",
     // backgroundColor: "gainsboro",
     // backgroundColor: "teal",
     // backgroundColor: "thistle",
     // backgroundColor: "steelblue",
-    // backgroundColor: "ghostwhite",
+    backgroundColor: "ghostwhite",
 }
 
 export let objects;

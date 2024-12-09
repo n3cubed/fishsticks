@@ -1,5 +1,5 @@
 
-export function zoom(app, canvas, scale) {
+export function zoom(app, canvas, scale, callback) {
     let cursor;
     app.canvas.onwheel = function (e) {
         e.preventDefault();
@@ -20,6 +20,7 @@ export function zoom(app, canvas, scale) {
         canvas.x += (e.clientX - canvas.x) * (1 - factor);
         canvas.y += (e.clientY - canvas.y) * (1 - factor);
         app.renderer.render(app.stage);
+        callback();
     }
 }
 
@@ -54,7 +55,7 @@ export function ewResize(ele, scale, onResize) {
 }
 
 
-export function pan(app, canvas) {
+export function pan(app, canvas, callback) {
     app.canvas.addEventListener("mousedown", function (e) {
         if (e && (e.which === 3 || e.button === 2)) {
             app.view.style.cursor = "grabbing";
@@ -64,11 +65,14 @@ export function pan(app, canvas) {
 
             function onMouseMove(e) {
                 if (lastX && lastY) {
-                    canvas.x += (e.offsetX - lastX);
-                    canvas.y += (e.offsetY - lastY);
+                    const deltaX = (e.offsetX - lastX);
+                    const deltaY = (e.offsetY - lastY);
+                    canvas.x += deltaX;
+                    canvas.y += deltaY;
                     lastX = e.offsetX;
                     lastY = e.offsetY;
                     app.renderer.render(app.stage);
+                    callback();
                 }
             }
 

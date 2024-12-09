@@ -22,7 +22,7 @@ export default function Speed({ isStopped, speed, speedStep, setSpeed }: props) 
 
   return (
     <>
-      {isStopped && <div className={`${styles.speed} ${styles.button}`}>
+      {!isStopped && <div className={`${styles.speed} ${styles.button}`}>
         <div
           onClick={speedDown}
           className={styles['speed-down']}

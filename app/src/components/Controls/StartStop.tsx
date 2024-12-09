@@ -9,7 +9,7 @@ type props = {
 };
 
 const simpleProps = {
-  pos: { x: 0.0, y: 0.0 },
+  pos: { x: -1.0, y: 0.0 },
   r: 0.1,
   color: 0xff0000,
   mass: 1.0,
