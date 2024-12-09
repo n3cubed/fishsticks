@@ -70,16 +70,17 @@ class Canvas {
 
             let numbersX = grid.getChildrenByLabel('x');
             let numbersY = grid.getChildrenByLabel('y');
+            let number0 = grid.getChildrenByLabel('0');
 
             let lenX = Math.floor(numVerticalLines/5) - (canvas.x < app.screen.width);
             let lenY = Math.floor(numHorizontalLines/5) - (canvas.y < app.screen.height);
-            // console.log("e",(canvas.x < app.screen.width))
-
 
             grid.removeChild(...numbersX.splice(lenX))
             grid.removeChild(...numbersY.splice(lenY))
             numbersX = numbersX.splice(0, lenX);
             numbersY = numbersY.splice(0, lenY);
+
+            const textStyle = new PIXI.TextStyle({ stroke: "ghostwhite", strokeThickness: 6, fontSize: 14 })
 
             for (let i = 0; i < Math.max(numVerticalLines, numHorizontalLines) ; i++) {
                 let lineNumX = initialLineNumX - i;
@@ -114,16 +115,12 @@ class Canvas {
                 if (lineNumX == 0) {
                     let number = grid.getChildByLabel('0');
                     if (number) {
-                        if (canvas.y < app.screen.height) {
-                            number.y = canvas.y;
-                            number.x = canvas.x-number.width-5;
-                        }
+                        number.y = canvas.y;
+                        number.x = canvas.x-number.width-5;
                     } else {
-                        const number = new PIXI.Text({ text: '0', style: { fontSize: 14} });
-                        if (canvas.y < app.screen.height) {
-                            number.y = canvas.y;
-                            number.x = canvas.x-number.width-5;
-                        }
+                        const number = new PIXI.Text({ text: '0', style: textStyle });
+                        number.y = canvas.y;
+                        number.x = canvas.x-number.width-5;
                         number.label = '0';
                         grid.addChild(number);
                     }
@@ -146,16 +143,12 @@ class Canvas {
 
                     if (number) {
                         number.text = num;
-                        if (canvas.y < app.screen.height) {
-                            number.y = canvas.y;
-                            number.x = x - number.width/2;
-                        }
+                        number.y = Math.min(Math.max(canvas.y, 0), app.screen.height - number.height);
+                        number.x = x - number.width/2;
                     } else {
-                        const number = new PIXI.Text({ text: num, style: { fontSize: 14} });
-                        if (canvas.y < app.screen.height) {
-                            number.y = canvas.y;
-                            number.x = x - number.width/2;
-                        }
+                        const number = new PIXI.Text({ text: num, style: textStyle });
+                        number.y = Math.min(Math.max(canvas.y, 0), app.screen.height - number.height);
+                        number.x = x - number.width/2;
                         number.label = 'x';
                         grid.addChild(number);
                     }
@@ -175,16 +168,12 @@ class Canvas {
                     let num = lineNumY/5 * Math.pow(2,Math.ceil(numHalves));
                     if (numb) {
                         numb.text = num;
-                        if (canvas.x < app.screen.height) {
-                            numb.x = canvas.x - numb.width - 5;
-                            numb.y = y - numb.height/2;
-                        }
+                        numb.x = Math.min(Math.max(canvas.x - numb.width - 5, 0), app.screen.width - numb.width);
+                        numb.y = y - numb.height/2;
                     } else {
-                        const number = new PIXI.Text({ text: num, style: { fontSize: 14} });
-                        if (canvas.x < app.screen.height) {
-                            number.x = canvas.x - number.width - 5;
-                            number.y = y - number.height/2;
-                        }
+                        const number = new PIXI.Text({ text: num, style: textStyle });
+                        number.x = Math.min(Math.max(canvas.x - number.width - 5, 0), app.screen.width - number.width);
+                        number.y = y - number.height/2;
                         number.label = 'y'
                         grid.addChild(number);
                     }
