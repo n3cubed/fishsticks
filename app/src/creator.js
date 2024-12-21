@@ -2,7 +2,7 @@
 // import { initializeWasm } from "../../public/uiFunctions.js";
 
 // import {ObjectsInterface, Objects, Tools} from 'api';
-import Objects from './objects';
+import { Objects, Listener } from 'api';
 // const gui = document.getElementById("gui");
 
 // let Objects = await import("../../../api/src/objects.js/index.js");
@@ -24,8 +24,11 @@ const canvasProps = {
 }
 
 export let objects;
+export let listener;
 
-export async function init() {
+export async function init(source) {
+    listener = new Listener(source);
+
     objects = new Objects(simulationProps, canvasProps);
 
     await objects.init();

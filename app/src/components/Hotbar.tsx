@@ -1,6 +1,7 @@
 import styles from "./Hotbar.module.css";
 import { useRef, useEffect } from "react";
-import { objects, ObjectsInterface } from "api";
+import { objects } from "../creator.js";
+import {ObjectsInterface } from "api";
 
 const simplePropsB = {
   pos: { x: 0.0, y: 0.0 },
@@ -68,7 +69,6 @@ export default function Hotbar() {
   const polygon = useRef(null);
 
   useEffect(() => {
-
     drag(circle.current, (pos) => { simplePropsB.pos = pos; new ObjectsInterface(objects, {}).createBallFromGlobalPos(simplePropsB).put(); });
     drag(square.current , (pos) => { simplePropsR.pos = pos; new ObjectsInterface(objects, {}).createBallFromGlobalPos(simplePropsR).put(); });
     drag(polygon.current , (pos) => { simplePropsB.pos = pos; new ObjectsInterface(objects, {}).createBallFromGlobalPos(simplePropsB).put(); });
