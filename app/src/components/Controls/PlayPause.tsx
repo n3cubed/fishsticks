@@ -1,6 +1,6 @@
 import { useState, SetStateAction } from "react";
 import styles from "./Controls.module.css";
-import { objects } from "api";
+import { objects } from "../../creator.js";
 
 type props = {
   isStopped: boolean; 
