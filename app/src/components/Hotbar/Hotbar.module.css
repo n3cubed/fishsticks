@@ -16,6 +16,8 @@
 }
 
 .circle {
+  user-select: none;
+  touch-action: none;
   background-color: rgb(255, 255, 255);
   width: 50px;
   height: 50px;
@@ -25,6 +27,8 @@
 }
 
 .square {
+  touch-action: none;
+  user-select: none;
   background-color: rgb(255, 255, 255);
   width: 50px;
   height: 50px;
@@ -34,6 +38,7 @@
 }
 
 .polygon {
+  touch-action: none;
   background-color: rgb(255, 255, 255);
   width: 50px;
   height: 50px;
@@ -41,4 +46,3 @@
   position: relative;
   cursor: pointer;
 }
-

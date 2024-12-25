@@ -40,8 +40,8 @@ export default function StartStop({
     isStopped ? start() : stop();
     setIsStopped(!isStopped);
 
-    let ball = objects.createBall(simpleProps);
-    ball.put();
+    // let ball = objects.createBall(simpleProps);
+    // ball.put();
   };
 
   return (

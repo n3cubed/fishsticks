@@ -49,7 +49,7 @@ export default function Hotbar() {
 
   const polygon = {
     iconType: "div",
-    iconProps: { className: `${styles.circle}` },
+    iconProps: { className: `${styles.polygon}` },
     objectProps: simplePropsB,
     action: (position) => {
       OI.createBallFromGlobalPos({ ...simplePropsB, pos: position }).put();
