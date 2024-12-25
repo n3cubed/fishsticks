@@ -2,7 +2,6 @@
 
 export default class Listener {
     constructor(source) {
-        console.log("creation")
         this.history = {
             "actions": []
         }
@@ -56,8 +55,6 @@ export default class Listener {
 
             if (e.button === 0) { // LMB or touch
                 const matchedActions = this.dragActions.filter(({ element }) => target == element )
-                console.log("target", target)
-                console.log("matchedActions", matchedActions)
                 if (matchedActions.length != 0) {
                     let clientPosition = { x: e.clientX, y: e.clientY };
                     let offsetPosition = { x: e.offsetX, y: e.offsetY };

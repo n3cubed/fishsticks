@@ -32,8 +32,6 @@ export const init = (guiElement) => {
             await objects.init()
             OI = new ObjectsInterface(objects, {})
             guiElement.appendChild(objects.view);
-            // console.log(objects.view)
-            // listener.addDragAction(objects.view, (position) => { console.log(position) });
         })();
     }
 };

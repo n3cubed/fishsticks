@@ -15,10 +15,10 @@ export default function Controls() {
   return (
     <>
       <div className={styles.controls}>
-          <StartStop isStopped={isStopped} setIsStopped={setIsStopped} setIsPaused={setIsPaused}/>
-          <PlayPause isStopped={isStopped} isPaused={isPaused} setIsPaused={setIsPaused} />
-          <Step      isStopped={isStopped} />
-          <Speed     isStopped={isStopped} speed={speed} speedStep={speedStep} setSpeed={setSpeed} />
+        <StartStop isStopped={isStopped} setIsStopped={setIsStopped} setIsPaused={setIsPaused}/>
+        <PlayPause isStopped={isStopped} isPaused={isPaused} setIsPaused={setIsPaused} />
+        <Step      isStopped={isStopped} />
+        <Speed     isStopped={isStopped} speed={speed} speedStep={speedStep} setSpeed={setSpeed} />
       </div>
     </>
   );

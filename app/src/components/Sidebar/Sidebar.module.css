@@ -1,0 +1,90 @@
+.sidebar {
+  background-color: rgb(0, 0, 0, 0.3);
+  width: 115px;
+  height: max-content;
+  border-radius: 0px;
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 3px 0; */
+  backdrop-filter: blur(2px);
+  border-bottom-left-radius: 5px;
+}
+
+.button-container {
+  position: relative;
+}
+
+.button {
+  background-color: rgba(192, 190, 190, 0);
+  position: relative;
+  width: 115px;
+  height: 50px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+  user-select: none;
+  font-size: 140%;
+  border-radius: 5px;
+}
+
+.button:hover {
+  border-radius: 5px;
+  background-color: #00000020;
+}
+
+.button:active {
+  border-radius: 5px;
+  background-color: #00000030;
+}
+
+.click {
+  background-color: #00000020;
+  border-radius: 5px; 
+}
+
+.popup {
+  background-color: rgb(0, 0, 0, 0.4);
+  width: max-content;
+  height: max-content;
+  border-radius: 5px;
+  position: absolute;
+  right: 115px;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 5px;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.1);
+  cursor: default;
+  backdrop-filter: blur(2px);  
+}
+
+.popup-buttons {
+  background-color: rgb(0,0,0, 0);
+  position: relative;
+  width: 130px;
+  height: 50px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+  user-select: none;
+  font-size: 140%;
+  border-radius: 5px;
+  
+}
+
+.popup-buttons:hover {
+  border-radius: 5px;
+  background-color: #00000020;
+}
+
+.popup-buttons:active {
+  border-radius: 5px;
+  background-color: #00000030;
+}
