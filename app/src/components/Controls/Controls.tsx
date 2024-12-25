@@ -5,6 +5,7 @@ import Speed from "./Speed";
 import styles from './Controls.module.css';
 import { useState } from 'react';
 import Hotbar from "../Hotbar";
+import Sidebar from "../Sidebar/Sidebar";
 
 
 export default function Controls() {
@@ -21,6 +22,7 @@ export default function Controls() {
           <Step      isStopped={isStopped} />
           <Speed     isStopped={isStopped} speed={speed} speedStep={speedStep} setSpeed={setSpeed} />
           <Hotbar />
+          <Sidebar />
       </div>
     </>
   );

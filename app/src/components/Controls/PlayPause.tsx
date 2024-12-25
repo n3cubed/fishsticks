@@ -3,7 +3,7 @@ import styles from "./Controls.module.css";
 import { objects } from "api";
 
 type props = {
-  isStopped: boolean;
+  isStopped: boolean; 
   isPaused: boolean;
   setIsPaused: (isPaused: boolean) => void;
 };
