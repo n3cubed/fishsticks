@@ -200,9 +200,9 @@ class Canvas {
             }
         }
 
-        const center = new PIXI.Graphics();
-        center.circle(0,0,5).fill(0x000000);
-        canvas.addChild(center);
+        // const center = new PIXI.Graphics();
+        // center.circle(0,0,5).fill(0x000000);
+        // canvas.addChild(center);
 
         zoom(this.app, canvas, 0.05, updateGrid);
         pan(this.app, canvas, updateGrid);

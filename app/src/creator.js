@@ -1,11 +1,8 @@
 // import Logger from "./guiLogger.js"
 // import { initializeWasm } from "../../public/uiFunctions.js";
 
-// import {ObjectsInterface, Objects, Tools} from 'api';
-import { Objects, Listener } from 'api';
-// const gui = document.getElementById("gui");
-
-// let Objects = await import("../../../api/src/objects.js/index.js");
+// import {, Objects, Tools} from 'api';
+import { ObjectsInterface, Objects, Listener } from 'api';
 
 
 const simulationProps = {
@@ -24,17 +21,23 @@ const canvasProps = {
 }
 
 export let objects;
+export let OI;
 export let listener;
 
-export async function init(source) {
-    listener = new Listener(source);
+export const init = (guiElement) => {
+    if (!listener && guiElement) {
+        listener = new Listener(guiElement);
+        objects = new Objects(simulationProps, canvasProps);
+        (async () => {
+            await objects.init()
+            OI = new ObjectsInterface(objects, {})
+            guiElement.appendChild(objects.view);
+            // console.log(objects.view)
+            // listener.addDragAction(objects.view, (position) => { console.log(position) });
+        })();
+    }
+};
 
-    objects = new Objects(simulationProps, canvasProps);
-
-    await objects.init();
-
-    return objects;
-}
 
 
 // const OIProps = { s: 100 }

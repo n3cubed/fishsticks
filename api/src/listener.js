@@ -27,12 +27,8 @@ export default class Listener {
         this.wheelActions = [];
         this.dragActions = [];
 
-        let onPointerMove;
-
         const onPointerUp = (e) => {
             console.log('pointerup')
-            if (onPointerMove) source.removeEventListener('pointermove', onPointerMove);
-
             let target = e.target;
             let position = { x: e.clientX, y: e.clientY };
 
@@ -59,20 +55,31 @@ export default class Listener {
             let target = e.target;
 
             if (e.button === 0) { // LMB or touch
-                const matchedActions = this.dragActions.filter(({ element, action }) => target == element )
-                console.log("lmb")
+                const matchedActions = this.dragActions.filter(({ element }) => target == element )
+                console.log("target", target)
+                console.log("matchedActions", matchedActions)
                 if (matchedActions.length != 0) {
-                    onPointerMove = (e) => {
+                    let clientPosition = { x: e.clientX, y: e.clientY };
+                    let offsetPosition = { x: e.offsetX, y: e.offsetY };
+                    matchedActions.forEach(({ grabAction }) => grabAction(clientPosition, offsetPosition));
+
+                    const onPointerMove = (e) => {
                         console.log('pointermove')
                         let position = { x: e.clientX, y: e.clientY };
-                        const runAction = ({ element, action }) => action(position);
-                        matchedActions.forEach((action) => runAction(action));
+                        const runAction = ( action ) => action(position);
+                        matchedActions.forEach(({ dragAction }) => {runAction(dragAction)});
                     }
                     onPointerMove(e)
 
+                    const onPointerUp = (e) => {
+                        let position = { x: e.clientX, y: e.clientY };
+                        const runAction = ( action ) => action(position);
+                        matchedActions.forEach(({ dropAction }) => runAction(dropAction));
+                        source.removeEventListener('pointermove', onPointerMove);
+                    }
+
                     source.addEventListener('pointermove', onPointerMove);
-                } else {
-                    onPointerMove = null;
+                    source.addEventListener('pointerup', onPointerUp, { once: true });
                 }
             }
         }
@@ -80,8 +87,8 @@ export default class Listener {
         source.addEventListener('pointerdown', onPointerDown);
     }
 
-    addDragAction(element, action) {
-        this.dragActions.push({element, action});
+    addDragAction(element, grabAction, dragAction, dropAction) {
+        this.dragActions.push({element, grabAction, dragAction, dropAction });
     }
     addLmbAction(element, action) {
         this.lmbUpActions.push({element, action});

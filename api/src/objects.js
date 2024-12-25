@@ -16,6 +16,7 @@ export default class Objects {
         this.timeStep = timeStep;
         this.totalPausedTime = 0;
         this.mainLoop;
+        this.view = document.createElement("canvas");
 
         this.canvas = new Canvas(canvasProps);
         this.simulation = new Simulation(simulationProps);
