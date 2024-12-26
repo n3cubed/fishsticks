@@ -34,4 +34,8 @@ export default class ObjectsInterface {
         let pos = this.global2m(globalPos);
         this.objects.removeFromPos(pos);
     }
+    setPosFromGlobalPos(obj, globalPos) {
+        let pos = this.global2m(globalPos);
+        obj.physicsObj.setPos(pos);
+    }
 }
