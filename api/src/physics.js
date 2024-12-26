@@ -189,12 +189,16 @@ class ObjectPhysics {
         }
     }
 
-    getMass() {
+    mass() {
         try {
             return this.rigidBody.mass();
         } catch (_) {
             return this.mass;
         }
+    }
+
+    setTranslation(x, y) {
+        this.rigidBody.setTranslation(x, y);
     }
 }
 
@@ -213,6 +217,14 @@ export class BallPhy extends ObjectPhysics {
             .setFriction(this.friction);
         return colliderDesc;
     }
+
+    radius() {
+        return this.collider.shape.radius;
+    }
+
+    setRadius(r) {
+        this.collider.shape.radius = r;
+    }
 }
 
 export class RectPhy extends ObjectPhysics {
@@ -230,5 +242,21 @@ export class RectPhy extends ObjectPhysics {
             .setDensity(this.density)
             .setFriction(this.friction);
         return colliderDesc;
+    }
+
+    width() {
+        return this.collider.shape.halfExtents.x * 2;
+    }
+
+    height() {
+        return this.collider.shape.halfExtents.y * 2;
+    }
+
+    setWidth(w) {
+        this.collider.shape.halfExtents.x = w/2;
+    }
+
+    setHeight(h) {
+        this.collider.shape.halfExtents.y = h/2;
     }
 }

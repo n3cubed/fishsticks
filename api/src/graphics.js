@@ -282,14 +282,26 @@ class ObjectGraphics {
         this.canvas.remove(this.object);
     }
 
-    position(pos) {
-        const position = m2pos(pos);
-        this.object.position = position;
+    position() {
+        return this.object.position;
     }
 
-    rotation(angle) {
+    rotation() {
+        return this.object.rotation
+    }
+
+    color() {
+        return this.object.color;
+    }
+
+    setPosition(pos) {
+        this.object.position = m2pos(pos);
+    }
+
+    setRotation(angle) {
         this.object.rotation = -angle;
     }
+
 }
 
 class BallG extends ObjectGraphics {
@@ -303,13 +315,16 @@ class BallG extends ObjectGraphics {
         const object = new PIXI.Container()
         object.position = pos;
         const circle = new PIXI.Graphics();
-        circle.beginFill(this.color);
-        circle.drawCircle(0, 0, this.r);
-        circle.endFill();
+        circle.circle(0,0, this.r).fill(this.color);
         object.addChild(circle);
 
         this.object = object;
         this.pixiGraphics = circle;
+    }
+
+    setRadius(radius) {
+        this.pixiGraphics.clear();
+        this.pixiGraphics.circle(0,0,radius * s).fill(this.color);
     }
 }
 
@@ -325,13 +340,23 @@ class RectG extends ObjectGraphics {
         const object = new PIXI.Container()
         object.position = pos;
         const rect = new PIXI.Graphics();
-        rect.beginFill(this.color);
-        rect.drawRect(-this.w/2, -this.h/2, this.w, this.h);
-        rect.endFill();
+        rect.rect(-this.w/2, -this.h/2, this.w, this.h).fill(this.color);
         object.addChild(rect);
 
         this.object = object;
         this.pixiGraphics = rect;
+    }
+
+    setWidth(w) {
+        this.w = w * s;
+        this.pixiGraphics.clear();
+        this.pixiGraphics.rect(-this.w/2, -this.h/2, this.w, this.h).fill(this.color);
+    }
+
+    setHeight(h) {
+        this.h = h * s;
+        this.pixiGraphics.clear();
+        this.pixiGraphics.rect(-this.w/2, -this.h/2, this.w, this.h).fill(this.color);
     }
 }
 

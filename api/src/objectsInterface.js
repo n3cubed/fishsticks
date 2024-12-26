@@ -35,6 +35,7 @@ export default class ObjectsInterface {
         return this.objects.createRect(props);
     }
 
+
     getObjectFromGlobalPos(globalPos) {
         let pos = this.global2m(globalPos);
         console.log(pos)

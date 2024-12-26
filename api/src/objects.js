@@ -193,11 +193,23 @@ class Object {
     }
 
     updatePosition() {
-        this.graphicsObj.position(this.physicsObj.translation());
+        this.graphicsObj.setPosition(this.physicsObj.translation());
     }
     updateRotation() {
-        this.graphicsObj.rotation(this.physicsObj.rotation());
+        this.graphicsObj.setRotation(this.physicsObj.rotation());
+    }
 
+    position() {
+        return this.physicsObj.translation();
+    }
+
+    color() {
+        return this.graphicsObj.color();
+    }
+
+    setPosition(pos) {
+        this.physicsObj.setTranslation(pos);
+        this.graphicsObj.setPosition(pos);
     }
 }
 
@@ -208,6 +220,15 @@ class Ball extends Object {
         this.graphicsObj = new BallG(this.canvas, this.props);
         this.vectors = new Vectors(this, objects.simulation, objects.canvas);
     }
+
+    radius() {
+        return this.physicsObj.radius();
+    }
+
+    setRadius(radius) {
+        this.physicsObj.setRadius(radius);
+        this.graphicsObj.setRadius(radius);
+    }
 }
 
 class Rect extends Object {
@@ -216,5 +237,23 @@ class Rect extends Object {
         this.physicsObj = new RectPhy(this.sim, this.props);
         this.graphicsObj = new RectG(this.canvas, this.props);
         this.vectors = new Vectors(this, objects.simulation, objects.canvas);
+    }
+
+    width() {
+        return this.physicsObj.width();
+    }
+
+    height() {
+        return this.physicsObj.height();
+    }
+
+    setWidth(w) {
+        this.physicsObj.setWidth(w);
+        this.graphicsObj.setWidth(w);
+    }
+
+    setHeight(h) {
+        this.physicsObj.setHeight(h);
+        this.graphicsObj.setHeight(h);
     }
 }

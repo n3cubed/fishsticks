@@ -29,7 +29,7 @@ export default function Gui() {
         let object = OI.getObjectFromGlobalPos(position);
         // let object = OI.getObjectFromGlobalPos(position);
         if (object) {
-          setAttributesMenu(<AttributesMenu position={position} objectProps={object.props} />)
+          setAttributesMenu(<AttributesMenu position={position} object={object} />)
         }
       }
     );
