@@ -198,8 +198,9 @@ class Object {
     updateRotation() {
         this.graphicsObj.rotation(this.physicsObj.rotation());
     }
-    setPosition2(pos) {
-        this.physicsObj.rigidBody.setTranslation(this.pos.x, this.pos.y);
+    setPosition(pos) {
+        console.log(pos);
+        this.physicsObj.rigidBody.setTranslation(pos);
         this.updatePosition();
     }
 }

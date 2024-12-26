@@ -15,28 +15,37 @@ init(gui, canvas);
 
 export default function Gui() {
   let guiContainer = useRef(null);
-  let [position, setPosition] = useState({ x: 0, y: 0 });
   let initialPosition = useRef({ x: 0, y: 0 });
   let initialOffsetPosition = useRef({ x: 0, y: 0 });
+  let object = useRef(null);
 
-  function grab(clientPosition, offsetPosition) {
-    initialPosition.current = clientPosition;
-    initialOffsetPosition.current = offsetPosition;
+  function grab(clientPosition) {
+    object.current = OI.getObjectFromGlobalPos(clientPosition);
+    if (!object.current) return;
+    let clientPositionM = OI.global2m(clientPosition);
+    initialPosition.current = clientPositionM;
+    let objPos = OI.pos2m(object.current.graphicsObj.object.position);
+    initialOffsetPosition.current = { x: objPos.x - clientPositionM.x, y: objPos.y - clientPositionM.y };
   }
 
   function drag(position) {
-    let dx = position.x - initialPosition.current.x;
-    let dy = position.y - initialPosition.current.y;
-    setPosition({ x: dx, y: dy });
+    let positionM = OI.global2m(position);
+    let pos = { x: 0, y: 0};
+    pos.x = positionM.x + initialOffsetPosition.current.x;
+    pos.y = positionM.y + initialOffsetPosition.current.y;
+    if (object.current) {
+      object.current.setPosition(pos);
+    }
   }
 
   function drop(position) {
-    let pos = { x: 0.0, y: 0.0 };
-    pos.x = position.x - initialOffsetPosition.current.x
-    pos.y = position.y - initialOffsetPosition.current.y
-    let object = OI.getObjectFromGlobalPos(position)
-    object.setPosition2(pos);
-    setPosition({ x: 0, y: 0 });
+    let positionM = OI.global2m(position);
+    let pos = { x: 0, y: 0};
+    pos.x = positionM.x + initialOffsetPosition.current.x;
+    pos.y = positionM.y + initialOffsetPosition.current.y;
+    if (object.current) {
+      object.current.setPosition(pos);
+    }
   }
 
     const [attributesMenu, setAttributesMenu] = useState(null);
@@ -49,7 +58,6 @@ export default function Gui() {
       objects.view,
       (position) => {
         let object = OI.getObjectFromGlobalPos(position);
-        // let object = OI.getObjectFromGlobalPos(position);
         if (object) {
           setAttributesMenu(<AttributesMenu position={position} objectProps={object.props} />)
         }

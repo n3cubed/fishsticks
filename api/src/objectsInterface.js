@@ -37,7 +37,6 @@ export default class ObjectsInterface {
 
     getObjectFromGlobalPos(globalPos) {
         let pos = this.global2m(globalPos);
-        console.log(pos)
         return this.objects.getObjectFromPos(pos);
     }
 
@@ -47,6 +46,6 @@ export default class ObjectsInterface {
     }
     setPosFromGlobalPos(obj, globalPos) {
         let pos = this.global2m(globalPos);
-        obj.physicsObj.setPos(pos);
+        obj.setPosition(pos);
     }
 }
