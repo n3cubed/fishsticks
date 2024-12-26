@@ -16,9 +16,10 @@ export default class Objects {
         this.timeStep = timeStep;
         this.totalPausedTime = 0;
         this.mainLoop;
-        this.view = document.createElement("canvas");
 
         this.canvas = new Canvas(canvasProps);
+        this.view = this.canvas.view;
+
         this.simulation = new Simulation(simulationProps);
         this.simulation.init();
 
@@ -31,7 +32,6 @@ export default class Objects {
 
     async init() {
         await this.canvas.init()
-        this.view = this.canvas.app.canvas;
         ewResize(this.view, 0.002, (e, factor) => {
             if (e.ctrlKey) {
                 this.view.style.cursor = "ew-resize";
@@ -116,13 +116,23 @@ export default class Objects {
         obj.removeAllVectors();
     }
 
-    removeFromPos(pos) {
+    getObjectFromPos(pos) {
         let colliders = this.simulation.findCollidersFromPos(pos);
-        colliders.forEach(collider => {
+        let hit = null;
+        for (let collider of colliders) {
             let rigidBody = collider.parent();
             let obj = this.objects.find(obj => obj.physicsObj.rigidBody === rigidBody);
-            this.removeObject(obj);
-        });
+            if (obj) {
+                hit = obj;
+                break;
+            }
+        }
+        return hit;
+    }
+
+    removeFromPos(pos) {
+        let obj = this.getObjectFromPos(pos);
+        this.removeObject(obj);
     }
 
     changeAllVectorsRelativeScale(scale) {

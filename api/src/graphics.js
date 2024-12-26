@@ -15,6 +15,7 @@ class Canvas {
         this.backgroundColor = backgroundColor;
         const app = new PIXI.Application();
         this.app = app;
+        this.view = document.createElement('canvas');
     }
 
     async init() {
@@ -22,6 +23,7 @@ class Canvas {
             background: '#1099bb',
             resizeTo: window,
             antialias: true,
+            view: this.view,
         })
         this.app.canvas.id = 'pixi-canvas';
         this.app.renderer.background.color = this.backgroundColor;
