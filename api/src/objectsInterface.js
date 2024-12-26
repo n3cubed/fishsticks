@@ -24,10 +24,21 @@ export default class ObjectsInterface {
         return this.objects.createBall(props);
     }
 
+    setPosFromGlobalPos(obj, globalPos) {
+        let pos = this.global2m(globalPos);
+        obj.setPosition(pos);
+    }
+
     createRectFromGlobalPos(props) {
         const { pos = { x: 0, y: 0 } } = props;
         props.pos = this.global2m(pos);
         return this.objects.createRect(props);
+    }
+
+    getObjectFromGlobalPos(globalPos) {
+        let pos = this.global2m(globalPos);
+        console.log(pos)
+        return this.objects.getObjectFromPos(pos);
     }
 
     removeFromGlobalPos(globalPos) {
