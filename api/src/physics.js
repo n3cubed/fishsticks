@@ -43,6 +43,10 @@ export class Simulation {
         this.rapierSim = simulation;
     }
 
+    updateColliders() {
+        this.rapierSim.updateSceneQueries();
+    }
+
     createJointParams(pos1, rot1, pos2, rot2) {
         let jointParams = RAPIER.JointData.fixed(pos1, rot1, pos2, rot2);
         return jointParams
@@ -169,7 +173,16 @@ class ObjectPhysics {
 
     // get properties
 
-    translation() {
+    getBodyType() {
+        const bodyType = this.rigidBody.bodyType();
+        if (bodyType === RAPIER.RigidBodyType.Dynamic) {
+            return "dynamic"
+        } else if (bodyType === RAPIER.RigidBodyType.static) {
+            return "static"
+        }
+    }
+
+    getTranslation() {
         try {
             return this.rigidBody.translation();
         } catch (_) {
@@ -177,11 +190,11 @@ class ObjectPhysics {
         }
     }
 
-    rotation() {
+    getRotation() {
         return this.rigidBody.rotation();
     }
 
-    linvel() {
+    getLinvel() {
         try {
             return this.rigidBody.linvel();
         } catch (_) {
@@ -189,16 +202,64 @@ class ObjectPhysics {
         }
     }
 
-    mass() {
+    getMass() {
         try {
+            console.log("a", this.rigidBody.mass())
             return this.rigidBody.mass();
         } catch (_) {
+            console.log(this.mass);
             return this.mass;
         }
     }
 
-    setTranslation(x, y) {
-        this.rigidBody.setTranslation(x, y);
+    getRestitution() {
+        return this.collider.restitution()
+    }
+
+    getCCD() {
+        return this.rigidBody.isCcdEnabled();
+    }
+
+    isSleeping() {
+        return this.rigidBody.isSleeping();
+    }
+
+    setBodyType(bodyTypeStr) {
+        let bodyType;
+        if (bodyTypeStr === "dynamic") {
+            bodyType = RAPIER.RigidBodyType.Dynamic;
+            console.log("b")
+        } else if (bodyTypeStr === "fixed") {
+            bodyType = RAPIER.RigidBodyType.Fixed;
+            console.log("a")
+        }
+        if (bodyType) {
+            this.rigidBody.setBodyType(bodyType);
+        }
+    }
+
+    setTranslation({x, y}) {
+        this.rigidBody.setTranslation({x, y});
+    }
+
+    setLinvel({x, y}) {
+        this.rigidBody.setLinvel({x, y})
+    }
+
+    setMass(mass) {
+        this.rigidBody.setAdditionalMass(mass);
+    }
+
+    setRestitution(restitution) {
+        this.collider.setRestitution(restitution)
+    }
+
+    setCCD(ccd) {
+        this.rigidBody.enableCcd(ccd)
+    }
+
+    setSleeping(sleeping) {
+        sleeping ? this.rigidBody.sleep() : this.rigidBody.wakeUp();
     }
 }
 
@@ -218,7 +279,7 @@ export class BallPhy extends ObjectPhysics {
         return colliderDesc;
     }
 
-    radius() {
+    getRadius() {
         return this.collider.shape.radius;
     }
 
@@ -244,11 +305,11 @@ export class RectPhy extends ObjectPhysics {
         return colliderDesc;
     }
 
-    width() {
+    getWidth() {
         return this.collider.shape.halfExtents.x * 2;
     }
 
-    height() {
+    getHeight() {
         return this.collider.shape.halfExtents.y * 2;
     }
 

@@ -187,7 +187,6 @@ class Canvas {
             }
 
             if (canvas.x < app.screen.width) {
-                console.log(true)
                 let x = canvas.x;
                 grid.moveTo(x, -app.screen.height/2);
                 grid.lineTo(x,  app.screen.height);
@@ -272,6 +271,13 @@ class ObjectGraphics {
         this.color = color;
         this.v = v;
         this.a = a;
+        const object = new PIXI.Container();
+        object.position = m2pos(this.pos);
+        const pixiGraphics = new PIXI.Graphics();
+        object.addChild(pixiGraphics);
+
+        this.object = object;
+        this.pixiGraphics = pixiGraphics;
     }
 
     put() {
@@ -282,16 +288,16 @@ class ObjectGraphics {
         this.canvas.remove(this.object);
     }
 
-    position() {
+    getPosition() {
         return this.object.position;
     }
 
-    rotation() {
+    getRotation() {
         return this.object.rotation
     }
 
-    color() {
-        return this.object.color;
+    getColor() {
+        return this.pixiGraphics.fillStyle.color;
     }
 
     setPosition(pos) {
@@ -301,7 +307,6 @@ class ObjectGraphics {
     setRotation(angle) {
         this.object.rotation = -angle;
     }
-
 }
 
 class BallG extends ObjectGraphics {
@@ -309,22 +314,27 @@ class BallG extends ObjectGraphics {
         super(canvas, props);
         const { r = 0 } = props;
         this.r = r * s;
-        const _pos = this.pos;
-        const pos = m2pos(_pos);
 
-        const object = new PIXI.Container()
-        object.position = pos;
-        const circle = new PIXI.Graphics();
-        circle.circle(0,0, this.r).fill(this.color);
-        object.addChild(circle);
+        this.draw(this.r, {color: this.color});
+    }
 
-        this.object = object;
-        this.pixiGraphics = circle;
+    draw(r, style) {
+        this.pixiGraphics.clear();
+        this.pixiGraphics.circle(0,0, r).fill(style);
+    }
+
+    getRadius() {
+        let r = this.pixiGraphics.radius;
+        return r ? r : this.r;
+        // return this.pixiGraphics.radius;
     }
 
     setRadius(radius) {
-        this.pixiGraphics.clear();
-        this.pixiGraphics.circle(0,0,radius * s).fill(this.color);
+        this.draw(radius, {color: this.getColor()});
+    }
+
+    setColor(color) {
+        this.draw(this.getRadius(), {color});
     }
 }
 
@@ -334,29 +344,37 @@ class RectG extends ObjectGraphics {
         const { w = 0, h = 0 } = props;
         this.w = w * s;
         this.h = h * s;
-        const _pos = this.pos;
-        const pos = m2pos(_pos);
 
-        const object = new PIXI.Container()
-        object.position = pos;
-        const rect = new PIXI.Graphics();
-        rect.rect(-this.w/2, -this.h/2, this.w, this.h).fill(this.color);
-        object.addChild(rect);
+        this.draw(this.w, this.h, {color: this.color});
+    }
 
-        this.object = object;
-        this.pixiGraphics = rect;
+    draw(w, h, style) {
+        this.pixiGraphics.clear();
+        this.pixiGraphics.rect(-w/2, -h/2, w, h).fill(style);
+    }
+
+    getWidth() {
+        let w = this.pixiGraphics.width
+        return w ? w : this.w;
+        // return this.pixiGraphics.width
+    }
+
+    getHeight() {
+        let h = this.pixiGraphics.height
+        return h ? h : this.h;
+        // return this.pixiGraphics.height
     }
 
     setWidth(w) {
-        this.w = w * s;
-        this.pixiGraphics.clear();
-        this.pixiGraphics.rect(-this.w/2, -this.h/2, this.w, this.h).fill(this.color);
+        this.draw(w, this.getHeight(), {color: this.getColor()});
     }
 
     setHeight(h) {
-        this.h = h * s;
-        this.pixiGraphics.clear();
-        this.pixiGraphics.rect(-this.w/2, -this.h/2, this.w, this.h).fill(this.color);
+        this.draw(this.getWidth(), h, {color: this.getColor()});
+    }
+
+    setColor(color) {
+        this.draw(this.getWidth(), this.getHeight(), {color});
     }
 }
 

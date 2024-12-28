@@ -1,3 +1,5 @@
+import * as math from 'mathjs';
+import * as PIXI from 'pixi.js';
 class Vectors {
     constructor(object, simulation, canvas) {
         this.object = object;
@@ -45,15 +47,15 @@ class Vectors {
         }
 
         let scalarVars = {
-            m: this.physicsObj.getMass(),
+            m: this.object.getMass(),
         }
         let varsX = {
-            v: this.physicsObj.linvel().x,
-            a: simTime - vector.prevTime === 0 ? 0 : (this.physicsObj.linvel().x - vector.prevV.x) / (simTime - vector.prevTime)
+            v: this.object.getLinvel().x,
+            a: simTime - vector.prevTime === 0 ? 0 : (this.object.getLinvel().x - vector.prevV.x) / (simTime - vector.prevTime)
         }
         let varsY = {
-            v: this.physicsObj.linvel().y,
-            a: simTime - vector.prevTime === 0 ? 0 : (this.physicsObj.linvel().y - vector.prevV.y) / (simTime - vector.prevTime)
+            v: this.object.getLinvel().y,
+            a: simTime - vector.prevTime === 0 ? 0 : (this.object.getLinvel().y - vector.prevV.y) / (simTime - vector.prevTime)
         }
         varsX = {...varsX, ...scalarVars};
         varsY = {...varsY, ...scalarVars};
@@ -66,7 +68,7 @@ class Vectors {
         let result = {x: resultX, y: resultY};
         vector.mag(result);
         vector.angle(result);
-        vector.pos({ x: this.physicsObj.translation().x, y: this.physicsObj.translation().y });
+        vector.pos({ x: this.object.getPosition().x, y: this.object.getPosition().y });
     }
 
     updateVectorScale(vector) {
@@ -163,7 +165,7 @@ class Vector {
         vectText.zIndex = 15;
         this.text = vectText;
 
-        this.prevV = { x: vectors.physicsObj.linvel().x, y: vectors.physicsObj.linvel().y };
+        this.prevV = { x: vectors.object.getLinvel().x, y: vectors.object.getLinvel().y };
         this.prevTime = vectors.simulation.simulationTime;
         this.update()
         this.updateScale()

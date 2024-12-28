@@ -38,12 +38,15 @@ export default class ObjectsInterface {
 
     getObjectFromGlobalPos(globalPos) {
         let pos = this.global2m(globalPos);
-        console.log(pos)
         return this.objects.getObjectFromPos(pos);
     }
 
     removeFromGlobalPos(globalPos) {
         let pos = this.global2m(globalPos);
         this.objects.removeFromPos(pos);
+    }
+    setPosFromGlobalPos(obj, globalPos) {
+        let pos = this.global2m(globalPos);
+        obj.setPosition(pos);
     }
 }

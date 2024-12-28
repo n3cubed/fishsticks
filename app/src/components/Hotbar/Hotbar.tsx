@@ -11,7 +11,7 @@ const simplePropsB = {
   rigidBody: "dynamic",
   canSleep: false,
   ccd: true,
-  v: { x: 1.0, y: 0.0 },
+  v: { x: 0.0, y: 0.0 },
 };
 
 const simplePropsR = {

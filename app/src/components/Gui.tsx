@@ -15,19 +15,50 @@ init(gui, canvas);
 
 export default function Gui() {
   let guiContainer = useRef(null);
-  // let [attributesMenuPosition, setAttributesMenuPosition] = useState({x: 0, y: 0});
-  // let [showAttributesMenu, setShowAttributesMenu] = useState(false);
-  // let attributesMenu = useRef(null);
+  let initialPosition = useRef({ x: 0, y: 0 });
+  let initialOffsetPosition = useRef({ x: 0, y: 0 });
+  let object = useRef(null);
+
+  function grab(clientPosition) {
+    object.current = OI.getObjectFromGlobalPos(clientPosition);
+    if (!object.current) return;
+    let clientPositionM = OI.global2m(clientPosition);
+    initialPosition.current = clientPositionM;
+    let objPos = OI.pos2m(object.current.graphicsObj.object.position);
+    initialOffsetPosition.current = { x: objPos.x - clientPositionM.x, y: objPos.y - clientPositionM.y };
+  }
+
+  function drag(position) {
+    if (object.current) {
+      let positionM = OI.global2m(position);
+      let pos = { x: 0, y: 0};
+      pos.x = positionM.x + initialOffsetPosition.current.x;
+      pos.y = positionM.y + initialOffsetPosition.current.y;
+      object.current.setPosition(pos);
+    }
+  }
+
+  function drop(position) {
+    if (object.current) {
+      let positionM = OI.global2m(position);
+      let pos = { x: 0, y: 0};
+      pos.x = positionM.x + initialOffsetPosition.current.x;
+      pos.y = positionM.y + initialOffsetPosition.current.y;
+      object.current.setPosition(pos);
+      objects.updateColliders();
+    }
+  }
+
   const [attributesMenu, setAttributesMenu] = useState(null);
 
   useEffect(() => {
+    listener.addDragAction(objects.view, grab, drag, drop);
     guiContainer.current.appendChild(gui);
 
     listener.addRmbAction(
       objects.view,
       (position) => {
         let object = OI.getObjectFromGlobalPos(position);
-        // let object = OI.getObjectFromGlobalPos(position);
         if (object) {
           setAttributesMenu(<AttributesMenu position={position} object={object} />)
         }

@@ -1,6 +1,8 @@
 import { useState, SetStateAction } from "react";
 import styles from "./Controls.module.css";
 import { objects } from "../../creator.js";
+import playSVG from "./play-solid.svg";
+import pauseSVG from "./pause-solid.svg";
 
 type props = {
   isStopped: boolean; 
@@ -30,10 +32,10 @@ export default function PlayPause({ isStopped, isPaused, setIsPaused }: props) {
       {!isStopped && (
         <div onClick={handleClick}>
           {isPaused && (
-            <div className={`${styles.play} ${styles.button}`}>Play</div>
+            <img className={`${styles.play} ${styles.button}`} src={playSVG} alt="play" />
           )}
           {!isPaused && (
-            <div className={`${styles.pause} ${styles.button}`}>Pause</div>
+            <img className={`${styles.pause} ${styles.button}`} src={pauseSVG} alt="pause" ></img>
           )}
         </div>
       )}

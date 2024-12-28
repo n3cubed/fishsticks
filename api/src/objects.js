@@ -92,6 +92,10 @@ export default class Objects {
         this.simulation.simulationTime += this.timeStep;
     }
 
+    updateColliders() {
+        this.simulation.updateColliders();
+    }
+
     createBall(props) {
         return new Ball(this, props);
     }
@@ -193,23 +197,79 @@ class Object {
     }
 
     updatePosition() {
-        this.graphicsObj.setPosition(this.physicsObj.translation());
+        this.graphicsObj.setPosition(this.physicsObj.getTranslation());
     }
     updateRotation() {
-        this.graphicsObj.setRotation(this.physicsObj.rotation());
+        this.graphicsObj.setRotation(this.physicsObj.getRotation());
     }
 
-    position() {
-        return this.physicsObj.translation();
+    getRigidBodyType() {
+        return this.physicsObj.getBodyType();
     }
 
-    color() {
-        return this.graphicsObj.color();
+    getPosition() {
+        return this.physicsObj.getTranslation();
+    }
+
+    getMass() {
+        return this.physicsObj.getMass();
+    }
+
+    getColor() {
+        return this.graphicsObj.getColor();
+    }
+
+    getLinvel() {
+        return this.physicsObj.getLinvel();
+    }
+
+    getRestitution() {
+        return this.physicsObj.getRestitution();
+    }
+
+    getCCD() {
+        return this.physicsObj.getCCD();
+    }
+
+    isSleeping() {
+        return this.physicsObj.isSleeping();
+    }
+
+    setRigidBodyType(bodyType) {
+        return this.physicsObj.setBodyType(bodyType);
     }
 
     setPosition(pos) {
         this.physicsObj.setTranslation(pos);
         this.graphicsObj.setPosition(pos);
+    }
+
+    setMass(mass) {
+        this.physicsObj.setMass(mass);
+    }
+
+    setColor(color) {
+        this.graphicsObj.setColor(color);
+    }
+
+    setLinvel(vel) {
+        this.physicsObj.setLinvel(vel);
+    }
+
+    setAngvel(vel) {
+        this.physicsObj.setAngvel(vel);
+    }
+
+    setSleeping(canSleep) {
+        this.physicsObj.setSleeping(canSleep);
+    }
+
+    setRestitution(restitution) {
+        this.physicsObj.setRestitution(restitution);
+    }
+
+    setCCD(ccd) {
+        this.physicsObj.setCCD(ccd);
     }
 }
 
@@ -221,8 +281,8 @@ class Ball extends Object {
         this.vectors = new Vectors(this, objects.simulation, objects.canvas);
     }
 
-    radius() {
-        return this.physicsObj.radius();
+    getRadius() {
+        return this.physicsObj.getRadius();
     }
 
     setRadius(radius) {
@@ -239,12 +299,12 @@ class Rect extends Object {
         this.vectors = new Vectors(this, objects.simulation, objects.canvas);
     }
 
-    width() {
-        return this.physicsObj.width();
+    getWidth() {
+        return this.physicsObj.getWidth();
     }
 
-    height() {
-        return this.physicsObj.height();
+    getHeight() {
+        return this.physicsObj.getHeight();
     }
 
     setWidth(w) {

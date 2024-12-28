@@ -8,12 +8,19 @@
 }
 
 .stop {
-  background-color: orangered;
+  background-color: rgb(255, 69, 0);
 }
 
-.play, .pause {
-  color: white;
-  background-color: darkslateblue;
+/* convert black to target hex: https://codepen.io/sosuke/pen/Pjoqqp */
+.play {
+  filter: invert(74%) sepia(42%) saturate(6530%) hue-rotate(67deg) brightness(101%) contrast(108%);
+  color: #2fd201;
+  cursor: pointer;
+}
+
+.pause {
+  filter: invert(7%) sepia(100%) saturate(7230%) hue-rotate(358deg) brightness(103%) contrast(122%);
+  color: #e90000;
   cursor: pointer;
 }
 

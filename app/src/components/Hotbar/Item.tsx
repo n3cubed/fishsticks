@@ -1,6 +1,6 @@
 import styles from "./Hotbar.module.css";
 import { useEffect, useRef, useState, createElement } from "react";
-import { listener } from "../../creator.js";
+import { listener, objects } from "../../creator.js";
 
 type props = {
   iconType: string;
@@ -38,6 +38,7 @@ export default function Item({ iconType, iconProps, objectProps, action }: props
     action(pos);
     setPosition({ x: 0, y: 0 });
     iconRef.current.style.cursor = "default";
+    objects.updateColliders();
   }
 
   useEffect(() => {

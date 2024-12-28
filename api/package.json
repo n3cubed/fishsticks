@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@dimforge/rapier2d": "^0.14.0",
+    "mathjs": "^14.0.1",
     "pixi.js": "^8.5.2"
   },
   "devDependencies": {
