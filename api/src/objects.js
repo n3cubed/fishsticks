@@ -271,6 +271,18 @@ class Object {
     setCCD(ccd) {
         this.physicsObj.setCCD(ccd);
     }
+
+    select() {
+        this.graphicsObj.drawBorder();
+    }
+
+    getBorderPoint(position) {
+        return this.graphicsObj.getBorderPoint(position);
+    }
+
+    deselect() {
+        this.graphicsObj.clearBorder();
+    }
 }
 
 class Ball extends Object {
@@ -279,6 +291,58 @@ class Ball extends Object {
         this.physicsObj = new BallPhy(this.sim, this.props);
         this.graphicsObj = new BallG(this.canvas, this.props);
         this.vectors = new Vectors(this, objects.simulation, objects.canvas);
+    }
+
+    // ++ grow
+    // +- grow
+    // -+
+    // -- shrink
+
+    scale(borderPoint, scaleLength) {
+        const { x, y } = this.getPosition();
+        const r = this.getRadius();
+        const { x: dx, y: dy } = { x: scaleLength.x, y: scaleLength.y };
+        let newPos = { x, y };
+        let newRadius = r;
+        let l = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+        let scaleVector;
+        const angle = Math.atan2(dy, dx)
+        let multiplier = 2.8;
+
+        switch (borderPoint) {
+            case 'topLeft':
+                scaleVector = l * Math.cos(Math.PI/4*3 - angle)
+                newRadius += scaleVector/multiplier;
+                newPos.x -=  scaleVector/multiplier;
+                newPos.y +=  scaleVector/multiplier;
+                break;
+
+            case 'topRight':
+                scaleVector = l * Math.cos(Math.PI/4 - angle)
+                // console.log((angle >= -Math.PI/4 && angle <= Math.PI/4*3) ? 1 : -1)
+                newRadius += scaleVector/multiplier;
+                newPos.x +=  scaleVector/multiplier;
+                newPos.y +=  scaleVector/multiplier;
+                break;
+
+            case 'bottomLeft':
+                scaleVector = l * Math.cos(-Math.PI/4*3 - angle)
+                newRadius += scaleVector/multiplier;
+                newPos.x -=  scaleVector/multiplier;
+                newPos.y -=  scaleVector/multiplier;
+                break;
+
+            case 'bottomRight':
+                scaleVector = l * Math.cos(-Math.PI/4 - angle)
+                newRadius += scaleVector/multiplier;
+                newPos.x +=  scaleVector/multiplier;
+                newPos.y -=  scaleVector/multiplier;
+                break;
+        }
+
+        this.setRadius(newRadius);
+        this.setPosition(newPos);
+        this.graphicsObj.drawBorder();
     }
 
     getRadius() {

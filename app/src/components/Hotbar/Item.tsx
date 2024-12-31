@@ -19,22 +19,22 @@ export default function Item({ iconType, iconProps, objectProps, action }: props
   let iconRef = useRef(null);
   let icon = createElement(iconType, { ref: iconRef, ...iconPropsNew });
 
-  function grab(clientPosition, offsetPosition) {
+  function grab({clientPosition, offsetPosition}) {
     iconRef.current.style.cursor = "grabbing";
     initialPosition.current = clientPosition;
     initialOffsetPosition.current = offsetPosition;
   }
 
-  function drag(position) {
-    let dx = position.x - initialPosition.current.x;
-    let dy = position.y - initialPosition.current.y;
+  function drag({clientPosition}) {
+    let dx = clientPosition.x - initialPosition.current.x;
+    let dy = clientPosition.y - initialPosition.current.y;
     setPosition({ x: dx, y: dy });
   }
 
-  function drop(position) {
+  function drop({clientPosition}) {
     let pos = { x: 0.0, y: 0.0 };
-    pos.x = position.x - initialOffsetPosition.current.x + iconRef.current.offsetWidth/2;
-    pos.y = position.y - initialOffsetPosition.current.y + iconRef.current.offsetHeight/2;
+    pos.x = clientPosition.x - initialOffsetPosition.current.x + iconRef.current.offsetWidth/2;
+    pos.y = clientPosition.y - initialOffsetPosition.current.y + iconRef.current.offsetHeight/2;
     action(pos);
     setPosition({ x: 0, y: 0 });
     iconRef.current.style.cursor = "default";
@@ -44,7 +44,7 @@ export default function Item({ iconType, iconProps, objectProps, action }: props
   useEffect(() => {
     const icon = iconRef.current;
     if (icon) {
-      listener.addDragAction(icon, grab, drag, drop);
+      listener.addDragAction(icon, ()=>{return true}, grab, drag, drop);
     }
   }, []);
 

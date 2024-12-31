@@ -17,6 +17,10 @@ export default class ObjectsInterface {
         return this.pos2m(pos);
     }
 
+    px2m(px) {
+        return {x: px.x / this.s / this.canvas.pixiCanvas.scale.x, y: - px.y / this.s / this.canvas.pixiCanvas.scale.y};
+    }
+
     createBallFromGlobalPos(props) {
         const { pos = { x: 0, y: 0 } } = props;
         // props.v = { x: 5, y: 7 }

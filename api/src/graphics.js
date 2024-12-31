@@ -1,5 +1,6 @@
 import { zoom, pan } from './panZoom.js';
 import * as PIXI from 'pixi.js';
+import { DashLine } from 'pixi-dashed-line'
 
 const s = 100;
 
@@ -50,8 +51,7 @@ class Canvas {
 
         // NOTE: very messy but it works, will clean up later
         function updateGrid() {
-            grid.clear();
-
+            grid.clear()
 
             // console.log(mod(numHalves,1))
             let numHalves = -Math.log2(canvas.scale.x);
@@ -274,8 +274,26 @@ class ObjectGraphics {
         const object = new PIXI.Container();
         object.position = m2pos(this.pos);
         const pixiGraphics = new PIXI.Graphics();
+        const border = new PIXI.Container();
+        const borderLines = new PIXI.Graphics();
+        const borderPoint1 = new PIXI.Graphics();
+        const borderPoint2 = new PIXI.Graphics();
+        const borderPoint3 = new PIXI.Graphics();
+        const borderPoint4 = new PIXI.Graphics();
+        const borderPoints = {
+            "bottomRight": borderPoint1,
+            "topRight": borderPoint2,
+            "bottomLeft": borderPoint3,
+            "topLeft": borderPoint4
+        };
+        border.addChild(borderLines);
+        border.addChild(...Object.values(borderPoints));
+        object.addChild(border);
         object.addChild(pixiGraphics);
 
+        this.borderLines = borderLines
+        this.borderPoints = borderPoints
+        this.border = border;
         this.object = object;
         this.pixiGraphics = pixiGraphics;
     }
@@ -307,6 +325,18 @@ class ObjectGraphics {
     setRotation(angle) {
         this.object.rotation = -angle;
     }
+
+    getBorderPoint(posM) {
+        const scale = this.canvas.pixiCanvas.scale.x;
+        let pos = m2pos(posM);
+        for (let point in this.borderPoints) {
+            let pointPosLocal = this.borderPoints[point].position
+            let pointPos =  {x:pointPosLocal.x + this.object.x , y: pointPosLocal.y + this.object.y };
+            console.log(pos, pointPos.x, Math.sqrt(Math.pow(pos.x - pointPos.x, 2) + Math.pow(pos.y - pointPos.y, 2)))
+            if (Math.sqrt(Math.pow(pos.x - pointPos.x, 2) + Math.pow(pos.y - pointPos.y, 2)) < 5/scale/2) return point;
+        }
+        return null;
+    }
 }
 
 class BallG extends ObjectGraphics {
@@ -323,19 +353,47 @@ class BallG extends ObjectGraphics {
         this.pixiGraphics.circle(0,0, r).fill(style);
     }
 
-    getRadius() {
-        let r = this.pixiGraphics.radius;
-        return r ? r : this.r;
-        // return this.pixiGraphics.radius;
+    drawBorder() {
+        this.borderLines.clear();
+        const r = this.getRadius();
+        const scale = this.canvas.pixiCanvas.scale.x;
+        // let r = 100;
+        this.borderLines
+            .moveTo(-r, -r - 1/scale)
+            .lineTo(-r, r)
+            .lineTo(r, r)
+            .lineTo(r, -r)
+            .lineTo(-r, -r)
+
+        this.borderLines.stroke({alignment: 0, width: 2/scale, color:0xff0000})
+
+        Object.values(this.borderPoints).forEach((graphic, i) => {
+            graphic.clear();
+            graphic.stroke({alignment: 0, width: 1, color:0xff0000})
+            graphic.circle(0, 0, 5/scale).fill({color: 0xff0000});
+            graphic.position.x = r * Math.pow(-1,i >> 1);
+            graphic.position.y = r * Math.pow(-1,i);
+        })
     }
 
-    setRadius(radius) {
-        this.draw(radius, {color: this.getColor()});
+    clearBorder() {
+        this.borderLines.clear();
+        Object.values(this.borderPoints).forEach((graphic)=>graphic.clear());
+    }
+
+    getRadius() {
+        let r = this.pixiGraphics.height/2;
+        return r ? r : this.r;
+    }
+
+    setRadius(r) {
+        this.draw(r * s, {color: this.getColor()});
     }
 
     setColor(color) {
         this.draw(this.getRadius(), {color});
     }
+
 }
 
 class RectG extends ObjectGraphics {
@@ -344,7 +402,6 @@ class RectG extends ObjectGraphics {
         const { w = 0, h = 0 } = props;
         this.w = w * s;
         this.h = h * s;
-
         this.draw(this.w, this.h, {color: this.color});
     }
 

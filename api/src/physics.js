@@ -204,10 +204,8 @@ class ObjectPhysics {
 
     getMass() {
         try {
-            console.log("a", this.rigidBody.mass())
             return this.rigidBody.mass();
         } catch (_) {
-            console.log(this.mass);
             return this.mass;
         }
     }
@@ -284,7 +282,7 @@ export class BallPhy extends ObjectPhysics {
     }
 
     setRadius(r) {
-        this.collider.shape.radius = r;
+        this.collider.setShape(new RAPIER.Ball(r));
     }
 }
 
