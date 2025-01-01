@@ -1,6 +1,5 @@
 import { zoom, pan } from './panZoom.js';
 import * as PIXI from 'pixi.js';
-import { DashLine } from 'pixi-dashed-line'
 
 const s = 100;
 

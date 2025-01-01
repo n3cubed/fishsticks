@@ -1,4 +1,3 @@
-
 let RAPIER;
 
 export class Simulation {
@@ -11,11 +10,12 @@ export class Simulation {
     }
 
     async init() {
-        RAPIER = await import('https://cdn.skypack.dev/@dimforge/rapier2d-compat');
-        await RAPIER.init();
+        // RAPIER = await import('https://cdn.skypack.dev/@dimforge/rapier2d-compat');
 
-        // BUG: this no work :(
-        // const RAPIER = await import('@dimforge/rapier2d');
+        // BUG: rapier2d does not work but rapier2d-compat does
+        // RAPIER = await import('@dimforge/rapier2d');
+        RAPIER = await import('@dimforge/rapier2d-compat');
+        await RAPIER.init();
 
         let integrationParams = new RAPIER.IntegrationParameters();
         integrationParams.dt = this.timeStep; // 1/60
